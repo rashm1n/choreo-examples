@@ -1,7 +1,7 @@
 FROM eclipse-temurin:17-jdk-alpine
 
 # Create a non-root user
-RUN adduser -D -u 19009 myuser
+RUN adduser -D -u 15009 myuser
 
 WORKDIR /app
 COPY /target/choreo-spring-0.0.1-SNAPSHOT.jar /app/
