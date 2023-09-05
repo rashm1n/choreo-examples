@@ -1,7 +1,7 @@
 FROM eclipse-temurin:17-jdk-alpine AS build
-RUN addgroup -g 19042 choreo && \
-    adduser --disabled-password --no-create-home --uid 19042 --ingroup choreo choreouser \
-USER choreouser
+RUN addgroup -g 11000 choreo && \
+    adduser --disabled-password --no-create-home --uid 11000 --ingroup choreo choreouser \
+USER 11000
 ADD . /app
 WORKDIR /app
 COPY . .
