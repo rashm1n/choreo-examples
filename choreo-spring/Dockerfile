@@ -1,16 +1,20 @@
-FROM eclipse-temurin:17-jdk-alpine AS build
-RUN addgroup -g 11000 choreo && \
-    adduser --disabled-password --no-create-home --uid 11000 --ingroup choreo choreouser \
-USER 11000
-ADD . /app
-WORKDIR /app
-COPY . .
-RUN ./mvnw  clean install
-FROM eclipse-temurin:17-jdk-alpine
-RUN addgroup -g 19042 choreo && \
-    adduser --disabled-password --no-create-home --uid 19042 --ingroup choreo choreouser
-WORKDIR /app
-COPY --from=build /app/target/choreo-spring-0.0.1-SNAPSHOT.jar .
-EXPOSE 8080
-USER choreouser
-CMD ["java", "-jar", "choreo-spring-0.0.1-SNAPSHOT.jar"]
+FROM maven:3.8.7-eclipse-temurin-19-alpine
+
+ADD . /java-springboot
+WORKDIR /java-springboot
+RUN ls -l
+RUN mvn clean install
+
+FROM openjdk:19-alpine
+RUN apk add --upgrade libtasn1-progs
+RUN apk update && apk upgrade zlib
+RUN addgroup -g 10014 choreo && \
+    adduser  --disabled-password  --no-create-home --uid 10014 --ingroup choreo choreouser
+VOLUME /tmp
+USER 10014
+
+# Add Spring Boot app.jar to Container
+COPY --from=0 "/java-springboot/target/choreo-*.jar" app.jar
+
+# Fire up our Spring Boot app by default
+CMD [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
