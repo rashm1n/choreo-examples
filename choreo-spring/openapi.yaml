@@ -93,10 +93,9 @@ components:
       properties:
         id:
           type: integer
-          readOnly: true
         name:
           type: string
-        type:
+        petType:
           type: string
         color:
           type: string

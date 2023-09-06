@@ -3,7 +3,7 @@ package com.rashm1n.choreospring.model;
 public class Pet {
     private int id;
     private String name;
-    private String type;
+    private String petType;
     private String color;
     private int age;
 
@@ -15,12 +15,12 @@ public class Pet {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getPetType() {
+        return petType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPetType(String petType) {
+        this.petType = petType;
     }
 
     public String getColor() {
